@@ -1,0 +1,3 @@
+.server/
+*-installer.jar
+*.log
