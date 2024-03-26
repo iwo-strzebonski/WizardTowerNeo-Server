@@ -1,1 +1,17 @@
 # WizardTowerNeo-Server
+
+## How to run the server
+
+```bash
+docker run -dp 25565:25565 -dp 8100:8100 octoturge/magictower_server
+```
+
+## How to add an operator
+
+```bash
+docker container ls
+docker exec -it <container_id> /bin/bash
+echo '[{"uuid":"<uid>","name":"<name>","level":4}]' > ops.json
+exit
+docker restart <container_id>
+```
