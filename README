@@ -3,11 +3,32 @@
 ## How to run the server
 
 ```bash
-docker run -dp 25565:25565 -dp 8100:8100 octoturge/magictower_server
+docker run -dp 25565:25565 -dp 8100:8100 -dp [your_name]/magictower_server
+docker run -dp 25565:25565 -dp 8100:8100 -dp 25575:25575 [your_name]/magictower_server # with rcon
+docker run -dp 25565:25565 -dp 8100:8100 --mount source=<volume_name>,destination=/usr/games/minecraft/server/world [your_name]/magictower_server # with volume
+```
+
+## How to build the server image
+
+```bash
+docker build . -t [your_name]/magictower_server --build-arg EULA=true --build-arg NEOFORGE_VERSION=[neoforge_version] --build-arg MODPACK_VERSION=[modpack_version]
+```
+
+## How to publish the server image
+
+```bash
+docker push [your_name]/magictower_server
+```
+
+## How to check available volumes
+
+```bash
+docker volume ls
 ```
 
 ## How to add an operator
 
+### Old way
 ```bash
 docker container ls
 docker exec -it <container_id> /bin/bash
@@ -15,3 +36,7 @@ echo '[{"uuid":"<uid>","name":"<name>","level":4}]' > ops.json
 exit
 docker restart <container_id>
 ```
+
+### New way (using rcon)
+```bash
+docker run -it --rm --network container:<container_id> --entrypoint /bin/bash [your_name]/magictower_server
