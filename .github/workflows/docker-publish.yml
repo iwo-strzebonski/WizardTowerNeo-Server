@@ -14,17 +14,31 @@ on:
     tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      EULA:
+        description: 'Agree to EULA'
+        required: true
+        default: true
+      NEOFORGE_VERSION:
+        description: 'NeoForge version'
+        required: true
+        default: 1.20.1-47.1.103
+      MODPACK_VERSION:
+        description: 'Modpack version'
+        required: true
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-
+  EULA: ${{ github.event.inputs.EULA }}
+  NEOFORGE_VERSION: ${{ github.event.inputs.NEOFORGE_VERSION }}
+  MODPACK_VERSION: ${{ github.event.inputs.MODPACK_VERSION }}
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -93,6 +107,9 @@ jobs:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
+          EULA: ${{ env.EULA }}
+          NEOFORGE_VERSION: ${{ env.NEOFORGE_VERSION }}
+          MODPACK_VERSION: ${{ env.MODPACK_VERSION }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
