@@ -62,12 +62,11 @@ RUN echo "rcon.port=25575" >> server.properties
 RUN echo "rcon.password=password" >> server.properties
 RUN echo "view-distance=12" >> server.properties
 RUN echo "difficulty=hard" >> server.properties
+RUN echo "enable-query=true" >> server.properties
 RUN echo "motd=Pondering the orb..." >> server.properties
+RUN echo "online-mode=false" >> server.properties
 
 RUN sed -i "s/accept-download: false/accept-download: ${EULA}/" ./config/bluemap/core.conf
-
-# Create the rcon alias
-RUN echo -e "#!/bin/bash\nmcrcon -H localhost -P 25575 -p password '$@'" > /usr/bin/rcon && chmod +x /usr/bin/rcon
 
 # Clean up the system
 RUN apt-get clean

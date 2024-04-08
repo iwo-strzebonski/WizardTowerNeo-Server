@@ -8,7 +8,7 @@ services:
       args:
         EULA: true
         NEOFORGE_VERSION: 1.20.1-47.1.103
-        MODPACK_VERSION: 1.0.0
+        MODPACK_VERSION: 1.2.0
     ports:
       - '25565:25565'
       - '25575:25575'

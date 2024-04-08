@@ -20,6 +20,12 @@ docker build . -t [your_name]/magictower_server --build-arg EULA=true --build-ar
 docker push [your_name]/magictower_server
 ```
 
+## How to add a tag to the server image
+
+```bash
+docker tag [your_name]/magictower_server:latest [your_name]/magictower_server:[tag]
+```
+
 ## How to check available volumes
 
 ```bash
